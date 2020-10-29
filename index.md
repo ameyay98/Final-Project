@@ -1,37 +1,10 @@
-## Welcome to GitHub Pages
+# HIV Worldwide 1990-2015 Visualization
 
-You can use the [editor on GitHub](https://github.com/ameyay98/Final-Project/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+## Background and Motivation 
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+The Project shows the distribution of HIV and AIDS patients and their changes from the year 1990 to 2015. The project contains different visualization like Choropleth , bar and line graph. There is not specific reason for choosing this dataset and visualizing it. But while researching about dataset I found it very interesting to work on. There’s no special research interest for choosing of the dataset, the dataset itself is good and visualizing on it would help in getting trends about HIV and Aids among different set of ages and help us in summarizing the problems by targeting the most affected ages for the disease with the help of visualization. The dataset contains distribution of HIV and Aids contracted humans into sets of ages which can be used to visualize the trends and find out the correct summary from the dataset with the help of the data visualization. For future I was thinking I might use machine learning on the dataset if I get more detailed dataset with the same schema and would love to further work on that.
 
-### Markdown
+### Name
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Ameya Yerpude
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/ameyay98/Final-Project/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
