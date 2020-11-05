@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Objectives
-permalink: /about/
+permalink: /Objectives/
 ---
 
 ### Objective
