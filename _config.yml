@@ -1,12 +1,11 @@
 # Site Settings
-title: Start Jekyll
-email: taniarascia@gmail.com
+title: HIV Worldwide 1990-2015 Visualization
+email: aryerpude@dons.usfca.edu
 description: >
   A guide to getting started with Jekyll.
-baseurl: "/startjekyll"
-url: "http://taniarascia.github.io"
-twitter_username: taniarascia
-github_username:  taniarascia
+baseurl: "/Final-Project"
+url: "http://ameyay98.github.io"
+github_username:  ameyay98
 # Build Settings
 sass:
   sass_dir: _sass
