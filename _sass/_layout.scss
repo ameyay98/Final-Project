@@ -46,6 +46,10 @@ header {
 	justify-content: center;
 	align-items: center;
 }
+img {
+	max-width: 100%;
+	padding: 5px;
+}
 main {
 	padding: 0 15px;
 	max-width: $content-width;

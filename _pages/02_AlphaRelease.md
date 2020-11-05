@@ -7,13 +7,13 @@ permalink: /alpha-release/
 ## Overview 
 
 
-![Map of Aids Related Death Over the World]({{site.url}}/images/choropleth.png)
+![Map of Aids Related Death Over the World]({{site.url}}/Final-Project/images/choropleth.png)
 * Map showing countries with Aids Related Death for a year. This is a placeholder how my visualization will look like.
-![Bar Graph for Comparison of different causes]({{site.url}}/images/bargraph.png)
+![Bar Graph for Comparison of different causes]({{site.url}}/Final-Project/images/bargraph.png)
 * This bar graph conatining aggregated count of persons for the different causes for comparisons.
-![Line Graph for different age groups]({{site.url}}/images/mline.png)
+![Line Graph for different age groups]({{site.url}}/Final-Project/images/mline.png)
 * This multi-line graph will be used to show cases realted to different age groups or certain group of people. 
-![Spread of HIV infection Over the Year]({{site.url}}/images/symbol.png)
+![Spread of HIV infection Over the Year]({{site.url}}/Final-Project/images/symbol.png)
 * Symbol map is used to show the spread of HIV infection for that year in the world.
 
 * Currently the above images are drawn using Tableau software and in beta-release, actual d3 visualization will be shown.
