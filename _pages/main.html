@@ -93,7 +93,7 @@
 
     d3.queue()
         .defer(d3.json, "https://enjalot.github.io/wwsd/data/world/world-110m.geojson")
-        .defer(d3.csv, "aids.csv")
+        .defer(d3.csv, "{{ base.url | prepend: site.baseurl }}/assests/aids.csv")
         .await(ready);
 
 
