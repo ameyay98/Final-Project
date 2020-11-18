@@ -1,0 +1,123 @@
+---
+layout: default
+title: Beta Release
+permalink: /BetaRelease/
+---
+
+<style>
+    .countries {
+        fill: none;
+        stroke: #fff;
+        stroke-linejoin: round;
+    }
+    .legendThreshold {
+        font-size: 12px;
+        font-family: sans-serif;
+    }
+    #selectors {
+        float: right;
+        padding-right : 200px ;
+        padding-top: 30px;
+    }
+    #bselectors {
+        float: right;
+        padding-right : 200px ;
+    }
+    #lselectors {
+        float: right;
+        padding-right : 200px ;
+        padding-top: 30px;
+    }
+    #canvas-svg {
+        padding-top: 50px;
+    }
+
+    .tooltipbar{
+        position      : absolute;
+        text-align    : center;
+        max-width     : 70px;
+        max-height    : 50px;
+        padding       : 8px;
+        border        : none;
+        border-radius : 8px;
+        margin-top    : -30px;
+        font          : 10px sans-serif;
+        background    : black;
+        color         : white;
+        pointer-events: none;
+    }
+    .tooltipline{
+        position      : absolute;
+        text-align    : center;
+        max-width     : 70px;
+        max-height    : 50px;
+        padding       : 8px;
+        border        : none;
+        border-radius : 8px;
+        margin-top    : -30px;
+        font          : 10px sans-serif;
+        background    : black;
+        color         : white;
+        pointer-events: none;
+    }
+    .line {
+        stroke-width: 2;
+        fill: none;
+    }
+
+    .axis path {
+        stroke: black;
+    }
+
+    .text {
+        font-size: 12px;
+    }
+
+    .title-text {
+        font-size: 12px;
+    }
+</style>
+<div id="choroplethmap">
+    <div id="selectors"></div>
+    <div id="tooltip-container"></div>
+    <div id="canvas-svg"></div>
+</div>
+<div id="bargraph">
+    <div id="bselectors"></div>
+    <div id = "b-canvas-svg"></div>
+</div>
+<div id="linegraph">
+    <div id="lselectors"></div>
+    <div id="l-canvas-svg"></div>
+</div>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.js"></script>
+<script src="Choroplethmaps.js"></script>
+<script src="BarGraph.js"></script>
+<script src="Multilinegraph.js"></script>
+<script>
+    var width= 800, height = 500;
+    var config = {default : "Data.AIDS-Related Deaths.All Ages", country : "Country", year :"Year", default_year : 1990, default_country : "Afghanistan", default_column : "AIDS-Related Deaths"} ;
+
+    d3.queue()
+        .defer(d3.json, "http://enjalot.github.io/wwsd/data/world/world-110m.geojson")
+        .defer(d3.csv, "aids.csv")
+        .await(ready);
+
+
+
+    function ready(error, topo, aids) {
+        if (error) throw error;
+
+        // Choropleth map
+
+        drawChoropleth(config.default,config.default_year, aids, topo, config);
+        drawBarGraph(config.default_country,config.default_year, aids, config);
+        drawLineGraph(config.default_column, config.default_country, aids, config);
+
+
+
+    }
+</script>

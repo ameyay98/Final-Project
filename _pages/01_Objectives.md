@@ -4,7 +4,6 @@ title: Objectives
 permalink: /Objectives/
 ---
 
-### Objective
 
 The project contains 4 different Visualizations which shows the following objectives : 
 * P1:  The distribution of HIV patients or AIDS over the world for different year using Filter.
