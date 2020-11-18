@@ -110,7 +110,7 @@
             if (error) throw error;
 
             // Choropleth map
-
+            console.log(aids);
             drawChoropleth(config.default,config.default_year, aids, topo, config);
             drawBarGraph(config.default_country,config.default_year, aids, config);
             drawLineGraph(config.default_column, config.default_country, aids, config);

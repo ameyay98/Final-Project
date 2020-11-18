@@ -3,6 +3,7 @@ function drawChoropleth(dataColumn, year, aids, topo, config) {
     // sources : http://bl.ocks.org/palewire/d2906de347a160f38bc0b7ca57721328
     // https://bl.ocks.org/dnprock/b48388ee8bc5582947b6
     // For Choropleth map
+    console.log(aids);
     var csvg = d3.select("#choroplethmap")
         .select("#canvas-svg")
         .append("svg")
