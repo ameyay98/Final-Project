@@ -92,7 +92,7 @@
     var config = {default : "Data.AIDS-Related Deaths.All Ages", country : "Country", year :"Year", default_year : 1990, default_country : "Afghanistan", default_column : "AIDS-Related Deaths"} ;
 
     d3.queue()
-        .defer(d3.json, "http://enjalot.github.io/wwsd/data/world/world-110m.geojson")
+        .defer(d3.json, "https://enjalot.github.io/wwsd/data/world/world-110m.geojson")
         .defer(d3.csv, "aids.csv")
         .await(ready);
 
