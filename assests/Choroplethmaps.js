@@ -69,6 +69,7 @@ function drawChoropleth(dataColumn, year, aids, topo, config) {
 
         console.log(data);
 
+
         var g = csvg
             .append("g")
             .attr("class", "legendThreshold")
@@ -99,6 +100,10 @@ function drawChoropleth(dataColumn, year, aids, topo, config) {
         csvg.select(".legendLinear")
             .call(legendLinear);
 
+
+        var div = d3.select("#choroplethmap").append('div')
+            .attr('class', 'tooltipmap')
+            .style('display', 'none');
         csvg.append("g")
             .attr("class", "countries")
             .selectAll("path")
@@ -108,7 +113,14 @@ function drawChoropleth(dataColumn, year, aids, topo, config) {
                 var t = data.get(d.properties.name) || 0;
                 return colorScale(t);
             })
-            .attr("d", path);
+            .attr("d", path)
+            .on("mouseover", function (d) {div.style('display', 'inline');})
+            .on("mousemove", function(d){
+                div.html( d.properties.name+ '<hr/>' + (data.get(d.properties.name) == undefined? 0 :data.get(d.properties.name)))
+                    .style('left', (d3.event.pageX - 34) + 'px')
+                    .style('top', (d3.event.pageY - 12) + 'px');
+            })
+            .on("mouseout", function(d){ div.style('display', 'none');});
 
     }
 

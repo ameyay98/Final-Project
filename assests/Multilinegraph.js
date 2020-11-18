@@ -46,7 +46,7 @@ function drawLineGraph(dataColumn, dataCountry, aids, config) {
                 });
                 if(flag == 0)
                 {
-                    toShow["AIDS-Related Deaths"][d["Country"]].push({name : f, values : [{date:parseDate(d["Year"]), value : +d[f]}]});
+                    toShow["AIDS-Related Deaths"][d["Country"]].push({name : f, values : [{date:parseDate(+d["Year"]), value : +d[f]}]});
                 }
             }
 
@@ -57,14 +57,14 @@ function drawLineGraph(dataColumn, dataCountry, aids, config) {
                 toShow["New HIV Infections"][d["Country"]].forEach(function (temp) {
                     if(temp.name == f)
                     {
-                        temp.values.push({date:parseDate(d["Year"]), value : +d[f]});
+                        temp.values.push({date:parseDate(+d["Year"]), value : +d[f]});
                         flag = 1;
 
                     }
                 });
                 if(flag == 0)
                 {
-                    toShow["New HIV Infections"][d["Country"]].push({name : f, values : [{date:parseDate(d["Year"]), value : +d[f]}]});
+                    toShow["New HIV Infections"][d["Country"]].push({name : f, values : [{date:parseDate(+d["Year"]), value : +d[f]}]});
                 }
 
             }
@@ -76,13 +76,13 @@ function drawLineGraph(dataColumn, dataCountry, aids, config) {
                 toShow["People Living with HIV"][d["Country"]].forEach(function (temp) {
                     if(temp.name == f)
                     {
-                        temp.values.push({date:d["Year"], value : +d[f]});
+                        temp.values.push({date:parseDate(+d["Year"]), value : +d[f]});
                         flag = 1;
                     }
                 });
                 if(flag == 0)
                 {
-                    toShow["People Living with HIV"][d["Country"]].push({name : f, values : [{date:parseDate(d["Year"]), value : +d[f]}]});
+                    toShow["People Living with HIV"][d["Country"]].push({name : f, values : [{date:parseDate(+d["Year"]), value : +d[f]}]});
                 }
             }
 
@@ -162,7 +162,7 @@ function drawLineGraph(dataColumn, dataCountry, aids, config) {
             .range([0, width - margin.right]);
 
         var yScale = d3.scaleLinear()
-            .domain([d3.min(toShow[dataColumn][dataCountry][0].values, d => d.value), d3.max(toShow[dataColumn][dataCountry][0].values, d => d.value)])
+            .domain([0, d3.max(toShow[dataColumn][dataCountry][0].values, d => d.value)])
             .range([height - margin.top - margin.bottom, 0]);
 
 
