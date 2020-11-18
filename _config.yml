@@ -4,7 +4,7 @@ email: aryerpude@dons.usfca.edu
 description: >
   A guide to getting started with Jekyll.
 baseurl: "/Final-Project"
-url: "http://ameyay98.github.io"
+url: "https://ameyay98.github.io"
 github_username:  ameyay98
 # Build Settings
 sass:
