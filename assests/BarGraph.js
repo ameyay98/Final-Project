@@ -9,7 +9,7 @@ function drawBarGraph(dataCountry, dataYear, aids, config)
     // Pre-processing
     var toShow = {"AIDS-Related Deaths" : {}, "New HIV Infections" : {}, "People Living with HIV" : {}};
 
-    var svg = d3.select('#bargraph')
+    var svg = d3.select('#main').select('#bargraph')
         .select("#b-canvas-svg")
         .append('svg')
         .attr("width",svgWidth)
@@ -43,7 +43,7 @@ function drawBarGraph(dataCountry, dataYear, aids, config)
         var opt = option_select.append("option")
             .attr("value", d)
             .text(d);
-        if ( d == config.default_country) {
+        if ( d == dataCountry) {
             opt.attr("selected", "true");
         }
     });
@@ -58,7 +58,7 @@ function drawBarGraph(dataCountry, dataYear, aids, config)
             .attr("value", d)
             .text(d);
 
-        if (d == config.default_year)
+        if (d == dataYear)
             opt.attr("selected", "true");
     });
     drawBars(dataCountry,dataYear);
@@ -66,17 +66,11 @@ function drawBarGraph(dataCountry, dataYear, aids, config)
 
     // Option selection changes
     option_select.on("change", function () {
-        svg.selectAll(".brect").remove();
-        svg.select(".tooltipbar").remove();
-        svg.select(".axisx").remove();
-        svg.select(".axisy").remove();
+        d3.select("#main").select("#bargraph").select("#b-canvas-svg").select("svg").selectAll("*").remove();
         drawBars(d3.select("#bargraph").select("#bselectors").select(".b-option-select").node().value, d3.select("#bargraph").select("#bselectors").select(".b-option-year").node().value, aids);
     });
     option_year.on("change", function () {
-        svg.selectAll(".brect").remove();
-        svg.select(".tooltipbar").remove();
-        svg.select(".axisx").remove();
-        svg.select(".axisy").remove();
+        d3.select("#main").select("#bargraph").select("#b-canvas-svg").select("svg").selectAll("*").remove();
         drawBars(d3.select("#bargraph").select("#bselectors").select(".b-option-select").node().value, d3.select("#bargraph").select("#bselectors").select(".b-option-year").node().value, aids);
     });
 

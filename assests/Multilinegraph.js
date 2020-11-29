@@ -1,11 +1,9 @@
 
-
 function drawLineGraph(dataColumn, dataCountry, aids, config) {
     // sources : https://codepen.io/zakariachowdhury/pen/JEmjwq
     var margin = {top: 65, bottom: 50, left: 50, right: 30}, axisPadding = 10;
     var duration = 250;
-    var height = 600;
-    var width = 800;
+    var width = 500;
     var lineOpacity = "0.25";
     var lineOpacityHover = "0.85";
     var otherLinesOpacityHover = "0.1";
@@ -13,7 +11,7 @@ function drawLineGraph(dataColumn, dataCountry, aids, config) {
     var lineStrokeHover = "2.5px";
 
     var circleOpacity = '0.85';
-    var circleOpacityOnLineHover = "0.25"
+    var circleOpacityOnLineHover = "0.25";
     var circleRadius = 3;
     var circleRadiusHover = 6;
 
@@ -21,6 +19,12 @@ function drawLineGraph(dataColumn, dataCountry, aids, config) {
     let toShow = {"AIDS-Related Deaths" : {}, "New HIV Infections" : {}, "People Living with HIV" : {}};
 
     var fields = Object.keys(aids[0]);
+    fields = fields.filter(function (d) {
+        if(!d.includes("Male") && !d.includes("Female"))
+        {
+            return d;
+        }
+    });
     var parseDate = d3.timeParse("%Y");
     aids.forEach(function(d){
         if(toShow["AIDS-Related Deaths"][d["Country"]]== undefined) {
@@ -46,7 +50,7 @@ function drawLineGraph(dataColumn, dataCountry, aids, config) {
                 });
                 if(flag == 0)
                 {
-                    toShow["AIDS-Related Deaths"][d["Country"]].push({name : f, values : [{date:parseDate(+d["Year"]), value : +d[f]}]});
+                    toShow["AIDS-Related Deaths"][d["Country"]].push({name : f, values : [{date:parseDate(d["Year"]), value : +d[f]}]});
                 }
             }
 
@@ -57,7 +61,7 @@ function drawLineGraph(dataColumn, dataCountry, aids, config) {
                 toShow["New HIV Infections"][d["Country"]].forEach(function (temp) {
                     if(temp.name == f)
                     {
-                        temp.values.push({date:parseDate(+d["Year"]), value : +d[f]});
+                        temp.values.push({date:parseDate(d["Year"]), value : +d[f]});
                         flag = 1;
 
                     }
@@ -94,20 +98,10 @@ function drawLineGraph(dataColumn, dataCountry, aids, config) {
 
 
 
-
-
-    /* Add SVG */
-    var svg = d3.select("#linegraph").select("#l-canvas-svg").append("svg")
-        .attr("width", (width + margin.left + margin.right) + "px")
-        .attr("height", (height + margin.top + margin.bottom) + "px")
-        .append('g')
-        .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-
-
-    var option_select = d3.select("#linegraph").select('#lselectors').append("select")
+    var option_select = d3.select('#main').select("#linegraph").select("#mf-line").select('#lselectors').append("select")
         .attr("class", "l-option-select");
-
+    var option_select_sb = d3.select('#main').select("#linegraph").select("#ms-line").select('#slselectors').append("select")
+        .attr("class", "l-option-select");
 
    Object.keys(toShow).forEach(function (d) {
        console.log(d);
@@ -115,13 +109,22 @@ function drawLineGraph(dataColumn, dataCountry, aids, config) {
                 .attr("value", d)
                 .text(d);
 
-            if (d === config.default_column) {
+            if (d === dataColumn) {
                 opt.attr("selected", "true");
+            }
+            var opt_sb = option_select_sb.append("option")
+                .attr("value", d)
+                .text(d);
+
+            if (d === dataColumn) {
+                opt_sb.attr("selected", "true");
             }
     });
 
 
-    var option_country = d3.select("#linegraph").select('#lselectors').append("select")
+    var option_country = d3.select('#main').select("#linegraph").select("#mf-line").select('#lselectors').append("select")
+        .attr("class", "l-option-country");
+    var option_country_sb = d3.select('#main').select("#linegraph").select("#ms-line").select('#slselectors').append("select")
         .attr("class", "l-option-country");
 
     var Countries = d3.map(aids, function (d) { return d["Country"]}).keys();
@@ -130,50 +133,71 @@ function drawLineGraph(dataColumn, dataCountry, aids, config) {
         var opt = option_country.append("option")
             .attr("value", d)
             .text(d);
-        if ( d == config.default_country) {
+        if ( d == dataCountry) {
             opt.attr("selected", "true");
         }
+        var opt_sb = option_country_sb.append("option")
+            .attr("value", d)
+            .text(d);
+        if ( d == dataCountry) {
+            opt_sb.attr("selected", "true");
+        }
     });
+
+    var svg = d3.select('#main').select("#linegraph").select("#mf-line").select("#l-canvas-svg").append("svg")
+        .attr("width", (width + margin.left + margin.right + 100) + "px")
+        .attr("height", (height + margin.top + margin.bottom + 100) + "px")
+        .append('g')
+        .attr("transform", `translate(${margin.left - 30}, ${margin.top + 100})`);
+
+    var ssvg = d3.select('#main').select("#linegraph").select("#ms-line").select("#sl-canvas-svg").append("svg")
+        .attr("width", (width + margin.left + margin.right + 100) + "px")
+        .attr("height", (height + margin.top + margin.bottom + 100) + "px")
+        .append('g')
+        .attr("transform", `translate(${margin.left - 30}, ${margin.top })`);
     option_select.on("change", function () {
-        svg.selectAll(".lines").remove();
-        svg.selectAll(".circle").remove();
-        svg.select(".legendLinear").remove();
-        svg.select(".xaxis").remove();
-        svg.select(".yaxis").remove();
-        drawLineChart(d3.select("#linegraph").select("#lselectors").select(".l-option-select").node().value,  d3.select("#linegraph").select("#lselectors").select(".l-option-country").node().value);
+        d3.select("#main").select("#linegraph").select("#mf-line").select("#l-canvas-svg").select("svg").selectAll("*").remove();
+        drawLineChart(d3.select('#main').select("#linegraph").select("#lselectors").select(".l-option-select").node().value,  d3.select('#main').select("#linegraph").select("#lselectors").select(".l-option-country").node().value, "#mf-line","#l-canvas-svg");
     });
     option_country.on("change", function () {
-        svg.selectAll(".lines").remove();
-        svg.selectAll(".circle").remove();
-        svg.select(".legendLinear").remove();
-        svg.select(".xaxis").remove();
-        svg.select(".yaxis").remove();
-        drawLineChart(d3.select("#linegraph").select("#lselectors").select(".l-option-select").node().value, d3.select("#linegraph").select("#lselectors").select(".l-option-country").node().value,);
+        d3.select("#main").select("#linegraph").select("#mf-line").select("#l-canvas-svg").select("svg").selectAll("*").remove();
+        drawLineChart(d3.select('#main').select("#linegraph").select("#lselectors").select(".l-option-select").node().value, d3.select('#main').select("#linegraph").select("#lselectors").select(".l-option-country").node().value,"#mf-line","#l-canvas-svg");
     });
-    drawLineChart(dataColumn,dataCountry);
-    /* Scale */
+    option_select_sb.on("change", function () {
+        d3.select("#main").select("#linegraph").select("#ms-line").select("#sl-canvas-svg").select("svg").selectAll("*").remove();
+        drawLineChart(d3.select('#main').select("#linegraph").select("#slselectors").select(".l-option-select").node().value,  d3.select('#main').select("#linegraph").select("#slselectors").select(".l-option-country").node().value, "#ms-line","#sl-canvas-svg");
+    });
+    option_country_sb.on("change", function () {
+        d3.select("#main").select("#linegraph").select("#ms-line").select("#sl-canvas-svg").select("svg").selectAll("*").remove();
+        drawLineChart(d3.select('#main').select("#linegraph").select("#slselectors").select(".l-option-select").node().value, d3.select('#main').select("#linegraph").select("#slselectors").select(".l-option-country").node().value, "#ms-line","#sl-canvas-svg");
+    });
+    drawLineChart(dataColumn,dataCountry,"#mf-line","#l-canvas-svg");
+    drawLineChart(dataColumn,dataCountry,"#ms-line","#sl-canvas-svg");
 
-    function drawLineChart(dataColumn, dataCountry) {
 
+
+    function drawLineChart(dataColumn, dataCountry, lineselector, selector) {
+        /* Add SVG */
+        var svg = d3.select("#main").select(lineselector).select(selector).select("svg");
 
         console.log(d3.extent(toShow[dataColumn][dataCountry][0].values, d => d.date));
         var xScale = d3.scaleTime()
             .domain(d3.extent(toShow[dataColumn][dataCountry][0].values, d => d.date))
-            .range([0, width - margin.right]);
+            .range([0, width]);
 
         var yScale = d3.scaleLinear()
             .domain([0, d3.max(toShow[dataColumn][dataCountry][0].values, d => d.value)])
-            .range([height - margin.top - margin.bottom, 0]);
+            .range([height , 0]);
 
 
         var color = d3.scaleOrdinal(d3.schemeCategory10);
 
         svg.append("g")
             .attr("class", "legendOrdinal")
-            .attr("transform", "translate(20,20)");
+            .attr("transform", "translate(50,20)");
 
 
-        d3.select(".legendOrdinal")
+        d3.select(".legendOrdinal");
         /* Add line into SVG */
         var line = d3.line()
             .x(d => xScale(d.date))
@@ -182,14 +206,14 @@ function drawLineGraph(dataColumn, dataCountry, aids, config) {
         let lines = svg.append('g')
             .attr('class', 'lines');
 
-        var div = d3.select("#linegraph").append('div')
+        var div = d3.select('#main').select("#linegraph").select(lineselector).select(selector).append('div')
             .attr('class', 'tooltipline')
             .style('display', 'none');
         lines.selectAll('.line-group')
             .data(toShow[dataColumn][dataCountry]).enter()
             .append('g')
             .attr('class', 'line-group')
-            .attr('transform', `translate(${margin.left - 27},${margin.top + margin.bottom - 10})`)
+            .attr('transform', `translate(40,0)`)
             .on("mouseover", function (d, i) {
                 div.style('display', 'inline');
 
@@ -232,7 +256,7 @@ function drawLineGraph(dataColumn, dataCountry, aids, config) {
         lines.selectAll("circle-group")
             .data(toShow[dataColumn][dataCountry]).enter()
             .append("g")
-            .attr('transform', `translate(${margin.left - 27},${margin.top + margin.bottom - 10})`)
+            .attr('transform', `translate(40,0)`)
             .style("fill", (d, i) => color(i))
             .selectAll("circle")
             .data(d => d.values).enter()
@@ -276,29 +300,28 @@ function drawLineGraph(dataColumn, dataCountry, aids, config) {
 
         svg.append("g")
             .attr("class", "legendLinear")
-            .attr("transform", "translate(30,-20)");
+            .attr("transform", "translate(60,-20)");
 
         var legendLinear = d3.legendColor()
             .shapeWidth(30)
             .labelFormat(d3.format(".0f"))
             .cells(toShow[dataColumn][dataCountry].length)
             .orient('vertical')
-            .scale(color.domain(d3.map(toShow[dataColumn][dataCountry], d=>d.name).keys()));
+            .scale(color.domain(d3.map(toShow[dataColumn][dataCountry], d=>d.name.split(".").splice(-1)[0]).keys()));
 
-        console.log(d3.map(toShow[dataColumn][dataCountry], d=>d.name).keys());
         svg.select(".legendLinear")
             .call(legendLinear);
         /* Add Axis into SVG */
-        var xAxis = d3.axisBottom(xScale).ticks(5);
-        var yAxis = d3.axisLeft(yScale).ticks(5);
+        var xAxis = d3.axisBottom(xScale).ticks(10);
+        var yAxis = d3.axisLeft(yScale).ticks(10);
         svg.append("g")
             .attr("class", "xaxis")
-            .attr("transform", `translate(20, ${height})`)
+            .attr("transform", `translate(40, ${height} )`)
             .call(xAxis);
 
         svg.append("g")
             .attr("class", "yaxis")
-            .attr("transform", `translate(10, ${margin.top + margin.bottom})`)
+            .attr("transform", `translate(${40}, 0 )`)
             .call(yAxis)
             .append('text')
             .attr("y", 15)

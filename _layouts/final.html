@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+{% include head.html %}
+<>
+<style>
+    #main {
+        border-width: 0.3px;
+        border-style: solid;
+        border-color: #262626;
+        padding-bottom: 20px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 20px;
+    }
+    #linegraph, #bargraph, #stackedbargraph, #choroplethmap {
+        margin-bottom: 10px;
+        border-width: 0.3px;
+        border-style: solid;
+        border-color: #262626;
+    }
+    #linegraph{
+        width: 100%;
+        display: inline-block;
+    }
+    .countries {
+        fill: none;
+        stroke: #fff;
+        stroke-linejoin: round;
+    }
+    .legendThreshold {
+        font-size: 12px;
+        font-family: sans-serif;
+    }
+    #selectors {
+        float: right;
+        padding-right : 150px ;
+        padding-top: 10px;
+    }
+    #bselectors {
+        float: right;
+        padding-right : 200px ;
+        padding-top: 10px;
+    }
+    #lselectors {
+        float: right;
+        padding-top: 10px;
+    }
+    #slselectors {
+        float: right;
+        padding-right: 50px;
+        padding-top: 10px;
+    }
+    #sbselectors {
+        float: right;
+        padding-right : 150px ;
+        padding-top: 10px;
+    }
+    #canvas-svg, #l-canvas-svg, #sl-canvas-svg, #sb-canvas-svg, #b-canvas-svg {
+        padding-top: 50px;
+        padding-left: 50px;
+    }
+    #mf-line {
+        float : left;
+        width: 45%;
+        display: inline;
+        padding: 10px;
+    }
+    #ms-line{
+        width: 60%;
+        display: inline;
+        padding-left: 50px;
+        padding-top: 9px;
+    }
+    #ms-line:after {
+        display : table;
+        border-width: 0.3px;
+        border-style: solid;
+        border-color: #262626;
+    }
+
+
+    .tooltipbar{
+        position      : absolute;
+        text-align    : center;
+        max-width     : 70px;
+        max-height    : 50px;
+        padding       : 8px;
+        border        : none;
+        border-radius : 8px;
+        margin-top    : -30px;
+        font          : 10px sans-serif;
+        background    : black;
+        color         : white;
+        pointer-events: none;
+    }
+    .tooltipline{
+        position      : absolute;
+        text-align    : center;
+        max-width     : 70px;
+        max-height    : 50px;
+        padding       : 8px;
+        border        : none;
+        border-radius : 8px;
+        margin-top    : -30px;
+        font          : 10px sans-serif;
+        background    : black;
+        color         : white;
+        pointer-events: none;
+    }
+    .tooltipmap{
+        position      : absolute;
+        text-align    : center;
+        max-width     : 70px;
+        max-height    : 50px;
+        padding       : 8px;
+        border        : none;
+        border-radius : 8px;
+        margin-top    : -30px;
+        font          : 10px sans-serif;
+        background    : black;
+        color         : white;
+        pointer-events: none;
+    }
+    .line {
+        stroke-width: 2;
+        fill: none;
+    }
+
+    .axis path {
+        stroke: black;
+    }
+
+    .text {
+        font-size: 12px;
+    }
+
+    .title-text {
+        font-size: 12px;
+    }
+</style>
+<body>
+{% include header.html %}
+<main>
+    <article>
+        {{ content }}
+    </article>
+    <div id ="main">
+        <div id="choroplethmap">
+            <div id="selectors">
+                <input type="hidden" id="country" value="Afghanisthan">
+            </div>
+            <div id="tooltip-container"></div>
+            <div id="canvas-svg"></div>
+        </div>
+        <div id="bargraph">
+            <div id="bselectors"></div>
+            <div id = "b-canvas-svg"></div>
+        </div>
+        <div id="linegraph">
+            <div id="mf-line">
+                <div id="lselectors"></div>
+                <div id="l-canvas-svg"></div>
+            </div>
+            <div id="ms-line">
+                <div id="slselectors"></div>
+                <div id="sl-canvas-svg"></div>
+            </div>
+        </div>
+        <div id="stackedbargraph">
+            <div id="sbselectors"></div>
+            <div id="sb-canvas-svg"></div>
+        </div>
+    </div>
+
+    <script>
+        var width= 800, height = 500;
+        var config = {default : "Data.AIDS-Related Deaths.All Ages", country : "Country", year :"Year", default_year : 1990, default_country : "Afghanistan", default_column : "AIDS-Related Deaths"} ;
+
+        d3.queue()
+            .defer(d3.json, "https://enjalot.github.io/wwsd/data/world/world-110m.geojson")
+            .defer(d3.csv, "aids.csv")
+            .await(ready);
+
+
+        //as
+        function ready(error, topo, aids) {
+            if (error) throw error;
+
+            // Choropleth map
+
+            drawChoropleth(config.default,config.default_year, aids, topo, config);
+            drawBarGraph(config.default_country,config.default_year, aids, config);
+            drawLineGraph(config.default_column, config.default_country, aids, config);
+            drawStackedBarChart(config.default_column,config.default_country, aids, config);
+
+
+        }
+    </script>
+</main>
+</body>
+
+</html>
