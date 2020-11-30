@@ -86,7 +86,9 @@ function drawStackedBarChart(dataColumn, dataCountry, data, config)
             return d.total;
         })]).nice();
         z.domain(keys);
-
+        var div = d3.select("#stackedbargraph").append('div')
+            .attr('class', 'tooltipbar')
+            .style('display', 'none');
         g.append("g")
             .selectAll("g")
             .data(d3.stack().keys(keys)(data))
@@ -110,16 +112,16 @@ function drawStackedBarChart(dataColumn, dataCountry, data, config)
             })
             .attr("width", x.bandwidth())
             .on("mouseover", function () {
-                tooltip.style("display", null);
+                div.style('display', 'inline');
             })
             .on("mouseout", function () {
-                tooltip.style("display", "none");
+                div.style('display', 'none');
             })
             .on("mousemove", function (d) {
-                var xPosition = d3.mouse(this)[0] - 5;
-                var yPosition = d3.mouse(this)[1] - 5;
-                tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
-                tooltip.select("text").text(d[1] - d[0]);
+
+                div.html(dataCountry + '<hr/>' + (d[1] - d[0]))
+                    .style('left', (d3.event.pageX - 34) + 'px')
+                    .style('top', (d3.event.pageY - 12) + 'px');
             });
         g.append("g")
             .attr("class", "xaxis")
@@ -159,23 +161,6 @@ function drawStackedBarChart(dataColumn, dataCountry, data, config)
             .text(function (d) {
                 if (d.includes("Male")) return "Male"; else return "Female";
             });
-
-        // Prep the tooltip bits, initial display is hidden
-        var tooltip = svg.append("g")
-            .attr("class", "tooltip")
-            .style("display", "none");
-
-        tooltip.append("rect")
-            .attr("width", 60)
-            .attr("height", 20)
-            .attr("fill", "white")
-            .style("opacity", 0.5);
-
-        tooltip.append("text")
-            .attr("x", 30)
-            .attr("dy", "1.2em")
-            .style("text-anchor", "middle")
-            .attr("font-size", "12px")
-            .attr("font-weight", "bold");
+        
     }
 }
