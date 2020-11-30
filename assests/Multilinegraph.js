@@ -147,6 +147,7 @@ function drawLineGraph(dataColumn, dataCountry, aids, config) {
     var svg = d3.select('#main').select("#linegraph").select("#mf-line").select("#l-canvas-svg").append("svg")
         .attr("width", (width + margin.left + margin.right + 100) + "px")
         .attr("height", (height + margin.top + margin.bottom + 100) + "px")
+        .attr("transform", `translate(${margin.left}, ${margin.top - 73})`)
         .append('g')
         .attr("transform", `translate(${margin.left - 30}, ${margin.top + 100})`);
 
